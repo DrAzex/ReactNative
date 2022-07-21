@@ -3,8 +3,10 @@ import { StyleSheet, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './Components/HomeScreen/HomeScreen';
-import SettingsScreen from './Components/SettingsScreen/SettingsScreen';
-import { AntDesign } from '@expo/vector-icons'; 
+import Profile from './Components/Profile/Profile';
+import Messenger from './Components/MessengerScreen/Messenger';
+
+import { MaterialCommunityIcons,Ionicons,MaterialIcons } from '@expo/vector-icons'; 
 
 const Tab = createBottomTabNavigator();
 
@@ -17,18 +19,29 @@ export default function App() {
             title: 'Home',
             tabBarIcon: () => {
               return (
-                <AntDesign name="down" size={24} color="black" />
+                <Ionicons name="ios-home-outline" size={24} color="black" />
               );
             },
             tabBarActiveTintColor: 'gray',
           }
         } />
-        <Tab.Screen name="Settings" component={SettingsScreen} options={
+        <Tab.Screen name="Messenger" component={Messenger} options={
           {
-            title: 'Home',
+            title: 'Messenger',
             tabBarIcon: () => {
               return (
-                <AntDesign name="down" size={24} color="black" />
+                <MaterialIcons name="messenger-outline" size={24} color="black" />
+              );
+            },
+            tabBarActiveTintColor: 'gray',
+          }
+        }/>
+        <Tab.Screen name="Profile" component={Profile} options={
+          {
+            title: 'Profile',
+            tabBarIcon: () => {
+              return (
+                <MaterialCommunityIcons name="account-circle-outline" size={24} color="black" />
               );
             },
             tabBarActiveTintColor: 'gray',

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Text, View } from 'react-native';
 
-function SettingsScreen() {
+function Profile() {
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <Text>Settings!</Text>
@@ -10,4 +10,4 @@ function SettingsScreen() {
   }
 
 
-export default SettingsScreen;
+export default Profile;
