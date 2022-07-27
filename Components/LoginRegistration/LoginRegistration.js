@@ -5,7 +5,7 @@ import {useState} from "react";
 import {Context} from "../../App";
 
 export default function LoginRegistration() {
-    const [logInfo, setLogInfo] = useState({email: '', pass: '' , passConfirm:'',name:''});
+    const [logInfo, setLogInfo] = useState({email: '', pass: '' , passConfirm:'',name:'',img:''});
     const [logOrReg , setLogOrReg] = useState('log')
     const [error,setErrorType] = useState('null')
     const {auth} = useContext(Context)
@@ -15,7 +15,8 @@ export default function LoginRegistration() {
             if(logInfo.pass != logInfo.passConfirm) throw new Error('pass-not-confirm')
             const {user} = await auth.createUserWithEmailAndPassword(logInfo.email,logInfo.pass);
             await user.updateProfile({
-                displayName: logInfo.name
+                displayName: logInfo.name,
+                photoURL:logInfo.img,
             })
 
         }
@@ -24,7 +25,7 @@ export default function LoginRegistration() {
 
         }
         finally {
-            setLogInfo({email: '', pass: '' , passConfirm:'',name:''});
+            setLogInfo({email: '', pass: '' , passConfirm:'',name:'',img:''});
         }
     }
     const Logining = async ()=>{
@@ -35,14 +36,14 @@ export default function LoginRegistration() {
             setErrorType(e.message)
         }
         finally {
-            setLogInfo({email: '', pass: '' , passConfirm:'',name:''});
+            setLogInfo({email: '', pass: '' , passConfirm:'',name:'',img:''});
         }
 
     }
     return (
         <View>
             {(logOrReg =='log') ? LogForm() :RegForm()}
-            <TouchableOpacity style = {styles.appButtonContainer } onPress={ ()=>{setErrorType('null'); setLogInfo({email: '', pass: '' , passConfirm:'',name:''}); setLogOrReg((logOrReg =='log') ?'reg':'log')  }}  ><Text style = {styles.appButtonText}>{(logOrReg =='log') ?'Sign Up':'Sign In'} </Text></TouchableOpacity>
+            <TouchableOpacity style = {styles.appButtonContainer } onPress={ ()=>{setErrorType('null'); setLogInfo({email: '', pass: '' , passConfirm:'',name:'',img:''}); setLogOrReg((logOrReg =='log') ?'reg':'log')  }}  ><Text style = {styles.appButtonText}>{(logOrReg =='log') ?'Sign Up':'Sign In'} </Text></TouchableOpacity>
             {
                 (error != 'null')?<Text> Error,Check if the data is correct</Text> //FIX
                     :<></>
@@ -53,10 +54,10 @@ export default function LoginRegistration() {
     function LogForm() {
         return (
             <View >
-                <TextInput style = {styles.block} value={logInfo.email} onChangeText={text => setLogInfo({email: text, pass: logInfo.pass , passConfirm:logInfo.passConfirm,name:logInfo.name})}
+                <TextInput style = {styles.block} value={logInfo.email} onChangeText={text => setLogInfo({email: text, pass: logInfo.pass , passConfirm:logInfo.passConfirm,name:logInfo.name,img:logInfo.img})}
                            placeholder='Email'></TextInput>
                 <View style = {styles.view}></View>
-                <TextInput secureTextEntry={true} style = {styles.block}  value={logInfo.pass} onChangeText={text => setLogInfo({email: logInfo.email, pass: text, passConfirm:logInfo.passConfirm,name:logInfo.name})}
+                <TextInput secureTextEntry={true} style = {styles.block}  value={logInfo.pass} onChangeText={text => setLogInfo({email: logInfo.email, pass: text, passConfirm:logInfo.passConfirm,name:logInfo.name,img:logInfo.img})}
                            placeholder='Password'></TextInput>
                 <View style = {styles.view}></View>
                 <TouchableOpacity style = {styles.appButtonContainer} onPress={Logining}  ><Text style = {styles.appButtonText}>Sign In</Text></TouchableOpacity>
@@ -68,16 +69,19 @@ export default function LoginRegistration() {
     function RegForm() {
         return (
             <View>
-                <TextInput style = {styles.block} value={logInfo.name} onChangeText={text => setLogInfo({email: logInfo.email, pass: logInfo.pass , passConfirm:logInfo.passConfirm,name:text})}
+                <TextInput style = {styles.block} value={logInfo.name} onChangeText={text => setLogInfo({email: logInfo.email, pass: logInfo.pass , passConfirm:logInfo.passConfirm,name:text,img:logInfo.img})}
                            placeholder='Name'></TextInput>
                 <View style = {styles.view}></View>
-                <TextInput secureTextEntry={false} style = {styles.block} value={logInfo.email} onChangeText={text => setLogInfo({email: text, pass: logInfo.pass , passConfirm:logInfo.passConfirm,name:logInfo.name})}
+                <TextInput style = {styles.block} value={logInfo.img} onChangeText={text => setLogInfo({email: logInfo.email, pass: logInfo.pass , passConfirm:logInfo.passConfirm,name:logInfo.name,img:text})}
+                           placeholder='Image (scr)'></TextInput>
+                <View style = {styles.view}></View>
+                <TextInput secureTextEntry={false} style = {styles.block} value={logInfo.email} onChangeText={text => setLogInfo({email: text, pass: logInfo.pass , passConfirm:logInfo.passConfirm,name:logInfo.name,img:logInfo.img})}
                            placeholder='Email'></TextInput>
                 <View style = {styles.view}></View>
-                <TextInput secureTextEntry={true} style = {styles.block} value={logInfo.pass} onChangeText={text => setLogInfo({email: logInfo.email, pass: text , passConfirm:logInfo.passConfirm,name:logInfo.name})}
+                <TextInput secureTextEntry={true} style = {styles.block} value={logInfo.pass} onChangeText={text => setLogInfo({email: logInfo.email, pass: text , passConfirm:logInfo.passConfirm,name:logInfo.name,img:logInfo.img})}
                            placeholder='Password'></TextInput>
                 <View style = {styles.view}></View>
-                <TextInput secureTextEntry={true} style = {styles.block} value={logInfo.passConfirm} onChangeText={text => setLogInfo({email: logInfo.email, pass: logInfo.pass , passConfirm:text,name:logInfo.name})}
+                <TextInput secureTextEntry={true} style = {styles.block} value={logInfo.passConfirm} onChangeText={text => setLogInfo({email: logInfo.email, pass: logInfo.pass , passConfirm:text,name:logInfo.name,img:logInfo.img})}
                            placeholder='Confirm Password'></TextInput>
                 <View style = {styles.view}></View>
                 <TouchableOpacity style = {styles.appButtonContainer} onPress={Registration}><Text style = {styles.appButtonText}>Sign Up</Text></TouchableOpacity>

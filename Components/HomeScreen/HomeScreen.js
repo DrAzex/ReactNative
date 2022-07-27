@@ -1,36 +1,76 @@
-import React from 'react';
-import { Text, View, TouchableWithoutFeedback,Image } from 'react-native';
+import React, {useContext} from 'react';
+import { Text, View, Image, ScrollView, TouchableOpacity} from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 
+import {useCollection} from "react-firebase-hooks/firestore";
+import {Context} from "../../App";
+
+import PostEdit from "../PostEdit/PostEdit";
+import Loader from "../Loader/Loader";
+import Comments from '../Comments/Comments'
+import {useAuthState} from "react-firebase-hooks/auth";
+
 export default function HomeScreen() {
+    const {firestore, auth} = useContext(Context)
+    const [user] = useAuthState(auth)
+    const [messages,loading] = useCollection(
+        firestore.collection('posts').orderBy('createAt')
+    )
+    const Liking = (m)=>{
+        if(!m.data().likeSendUsersId.includes(user.uid)){
+            firestore.doc(m.ref.path).update({'likeCount':m.data().likeCount+1})
+            firestore.doc(m.ref.path).update({'likeSendUsersId':[...m.data().likeSendUsersId,user.uid]})
+        }
+        else{
+            firestore.doc(m.ref.path).update({'likeCount':m.data().likeCount-1})
+            let a =m.data().likeSendUsersId;
+            a.pop(a.indexOf(user.uid))
+            firestore.doc(m.ref.path).update({'likeSendUsersId':[...a]})
+        }
+    }
+    if(loading){
+        return <Loader />
+    }
     return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <View>
-            <View>
-                <Text style={{fontSize:'20px',borderBottomWidth:'1px'}}>Postet By Gev</Text>
-                <Text>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</Text>
-                <Image source={{
-                    uri: 'https://www.simplilearn.com/ice9/free_resources_article_thumb/what_is_image_Processing.jpg',
-                    width: '100%',
-                    height: '100%',
-                }} />
-                <View>
-                    <Text>Likes 14</Text>
-                    <Text>Comment 21</Text>
-                </View>
-                <View >
-                    <AntDesign name="like2" size={24} color="black" />
-                    <Text>Show comments</Text> 
-                    <View>
+        <ScrollView >
+            <PostEdit />
+                {
+                    messages.docs.map(message =>
+                    <View style={{borderSize:"30px",margin:20}} key = {message.id}>
+
                         <View>
-                            <Text>Vazgenchik</Text>
-                            <Text>er took a galley of type and scrambled it to make a type specimen book. It has survived not onl</Text>
+                            <Image source={{
+                                    uri: message.data().photoURL,
+                                    width: 60,
+                                    height: 60,
+                                    resizeMode:"contain"
+                            }} />
+                            <Text>{message.data().displayName}</Text>
+                        </View>
+                        <View>
+                            <Text>{message.data().text}</Text>
+                            {(message.data().img)? <Image source={{
+                                uri: message.data().img,
+                                width: 350,
+                                height: 350,
+                                defaultSource : 'http://www.dermalina.com/wp-content/uploads/2020/12/no-image.jpg',
+                                resizeMode:"contain"
+                            }} /> : <></>}
+                        </View>
+                        <View>
+                            <View>
+                                <Text>Likes {message.data().likeCount}</Text>
+                                <Text>Comment {message.data().commentCount}</Text>
+                            </View>
+                            <View >
+                                <TouchableOpacity onPress={()=> Liking(message)} ><AntDesign  name={(message.data().likeSendUsersId.includes(user.uid))?'like1': 'like2'} size={24} color="black" /></TouchableOpacity>
+                                <Comments message ={message} />
+
+                            </View>
                         </View>
                     </View>
-                </View>
-            </View>
-        </View>
-      </View>
+                )}
+        </ScrollView>
     );
 }
 
