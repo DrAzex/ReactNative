@@ -2,7 +2,12 @@ import React, {createContext} from "react";
 
 import Navigation from "./Components/Navigation/Navigation";
 import Login from "./Components/LoginRegistration/LoginRegistration";
+<<<<<<< HEAD
 import { StyleSheet, SafeAreaView,View} from "react-native";
+=======
+import Loader from "./Components/Loader/Loader";
+import { StyleSheet, SafeAreaView} from "react-native";
+>>>>>>> d85d50d43f95944433ec38c0bd16b096c901f439
 
 import firebase from "firebase/compat";
 import "firebase/firestore";
@@ -24,7 +29,11 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 export default function App() {
 
+<<<<<<< HEAD
     const [user] = useAuthState(auth)
+=======
+    const [user ] = useAuthState(auth)
+>>>>>>> d85d50d43f95944433ec38c0bd16b096c901f439
         return (
             <Context.Provider value={{
                 firebase,

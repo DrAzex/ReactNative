@@ -1,14 +1,25 @@
 import React, {useContext} from 'react';
+<<<<<<< HEAD
 import { Text, View, Image, ScrollView, TouchableOpacity, StyleSheet} from 'react-native';
+=======
+import { Text, View, Image, ScrollView, TouchableOpacity} from 'react-native';
+>>>>>>> d85d50d43f95944433ec38c0bd16b096c901f439
 import { AntDesign } from '@expo/vector-icons';
 
 import {useCollection} from "react-firebase-hooks/firestore";
 import {Context} from "../../App";
+<<<<<<< HEAD
 import {useAuthState} from "react-firebase-hooks/auth";
+=======
+>>>>>>> d85d50d43f95944433ec38c0bd16b096c901f439
 
 import PostEdit from "../PostEdit/PostEdit";
 import Loader from "../Loader/Loader";
 import Comments from '../Comments/Comments'
+<<<<<<< HEAD
+=======
+import {useAuthState} from "react-firebase-hooks/auth";
+>>>>>>> d85d50d43f95944433ec38c0bd16b096c901f439
 
 export default function HomeScreen() {
     const {firestore, auth} = useContext(Context)
@@ -32,6 +43,7 @@ export default function HomeScreen() {
         return <Loader />
     }
     return (
+<<<<<<< HEAD
         <ScrollView>
             <PostEdit/>
                 {
@@ -40,16 +52,34 @@ export default function HomeScreen() {
                         <View style = {style.view}></View>
                         <View style = {style.info}>
                             <Image style = {style.img}source={{
+=======
+        <ScrollView >
+            <PostEdit />
+                {
+                    messages.docs.map(message =>
+                    <View style={{borderSize:"30px",margin:20}} key = {message.id}>
+
+                        <View>
+                            <Image source={{
+>>>>>>> d85d50d43f95944433ec38c0bd16b096c901f439
                                     uri: message.data().photoURL,
                                     width: 60,
                                     height: 60,
                                     resizeMode:"contain"
                             }} />
+<<<<<<< HEAD
                             <Text style = {style.textDesign}>{message.data().displayName}</Text>
                         </View>
                         <View >
                             <Text style = {{margin:10}}>{message.data().text}</Text>
                             {(message.data().img)? <Image style  = {{marginTop: 10, marginBottom: 10}}source={{
+=======
+                            <Text>{message.data().displayName}</Text>
+                        </View>
+                        <View>
+                            <Text>{message.data().text}</Text>
+                            {(message.data().img)? <Image source={{
+>>>>>>> d85d50d43f95944433ec38c0bd16b096c901f439
                                 uri: message.data().img,
                                 width: 350,
                                 height: 350,
@@ -58,6 +88,7 @@ export default function HomeScreen() {
                             }} /> : <></>}
                         </View>
                         <View>
+<<<<<<< HEAD
                             <View style = {style.comments}>
                                 <View style = {style.like}> 
                                 <Text>Likes {message.data().likeCount}</Text>
@@ -72,6 +103,17 @@ export default function HomeScreen() {
                             <View>
                                     <Comments message ={message} />
                                 </View>
+=======
+                            <View>
+                                <Text>Likes {message.data().likeCount}</Text>
+                                <Text>Comment {message.data().commentCount}</Text>
+                            </View>
+                            <View >
+                                <TouchableOpacity onPress={()=> Liking(message)} ><AntDesign  name={(message.data().likeSendUsersId.includes(user.uid))?'like1': 'like2'} size={24} color="black" /></TouchableOpacity>
+                                <Comments message ={message} />
+
+                            </View>
+>>>>>>> d85d50d43f95944433ec38c0bd16b096c901f439
                         </View>
                     </View>
                 )}

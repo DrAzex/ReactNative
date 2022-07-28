@@ -27,7 +27,10 @@ export default function PostEdit() {
                 comments : []
             })
             setPostInfo({content: '', imgScr: ''})
+<<<<<<< HEAD
             setHeight(30)
+=======
+>>>>>>> d85d50d43f95944433ec38c0bd16b096c901f439
         }
         catch (e){
             setError(e.message)

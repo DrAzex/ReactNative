@@ -1,5 +1,9 @@
 import React, {useContext} from "react";
+<<<<<<< HEAD
 import {TouchableOpacity, Text, View, Image, ScrollView} from 'react-native';
+=======
+import {Button, Text, View,Image} from 'react-native';
+>>>>>>> d85d50d43f95944433ec38c0bd16b096c901f439
 
 import {Context} from "../../App";
 import {useAuthState} from "react-firebase-hooks/auth";
@@ -20,6 +24,7 @@ export default function Messenger() {
     messages.docs.filter(post=>post.data().uid == user.uid).map(mes =>{likeCount += mes.data().likeCount});
     return (
       <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+<<<<<<< HEAD
 
           <ScrollView>
               <View>
@@ -65,6 +70,17 @@ export default function Messenger() {
           </ScrollView>
 
           <TouchableOpacity title='Sing out' onPress={()=>console.log(auth.signOut())}><Text>Sing out</Text></TouchableOpacity>
+=======
+        <Text>Messenger!</Text>
+          <Text>Your name is {user.displayName}</Text>
+          <Image source={{
+          uri: user.photoURL,
+          width: 100,
+          height: 100,
+          defaultSource : 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png'
+      }} />
+          <Button title='Sing out' onPress={()=>console.log(auth.signOut())}/>
+>>>>>>> d85d50d43f95944433ec38c0bd16b096c901f439
       </View>
     );
   }
