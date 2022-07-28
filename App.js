@@ -1,9 +1,8 @@
 import React, {createContext} from "react";
-import {useState} from "react";
 
 import Navigation from "./Components/Navigation/Navigation";
 import Login from "./Components/LoginRegistration/LoginRegistration";
-import {Button, StyleSheet, SafeAreaView} from "react-native";
+import { StyleSheet, SafeAreaView,View} from "react-native";
 
 import firebase from "firebase/compat";
 import "firebase/firestore";
@@ -25,7 +24,7 @@ const auth = firebase.auth();
 const firestore = firebase.firestore();
 export default function App() {
 
-        const [user] = useAuthState(auth)
+    const [user] = useAuthState(auth)
         return (
             <Context.Provider value={{
                 firebase,
@@ -42,6 +41,7 @@ export default function App() {
                 }
             </Context.Provider>
         );
+        
 }
 
 const styles = StyleSheet.create({
